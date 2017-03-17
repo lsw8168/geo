@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+       <!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script> -->
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script> -->
+       <!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script> -->
+       <script type="text/javascript">
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        var geoCoordMap = {
+            'AD' : [1.5, 42.5],
+            'AE' : [54,24],
+            'AF' : [65,33],
+            'AG' : [-61.8,17.05],
+            'AI' : [-63.1667,18.25],
+            'AL' : [20,41],
+            'AM' : [45,40],
+            'AN' : [-68.75,12.25],
+            'AO' : [18.5,-12.5],
+            'AP' : [105,35],
+            'AQ' : [0,-90],
+            'AR' : [-64,-34],
+            'AS' : [-170,-14.3333],
+            'AT' : [13.3333,47.3333],
+            'AU' : [133,-27],
+            'AW' : [-69.9667,12.5],
+            'AZ' : [47.5,40.5],
+            'BA' : [18,44],
+            'BB' : [-59.5333,13.1667],
+            'BD' : [90,24],
+            'BE' : [4,50.8333],
+            'BF' : [-2,13],
+            'BG' : [25,43],
+            'BH' : [50.55,26],
+            'BI' : [30,-3.5],
+            'BJ' : [2.25,9.5],
+            'BM' : [-64.75,32.3333],
+            'BN' : [114.6667,4.5],
+            'BO' : [-65,-17],
+            'BR' : [-55,-10],
+            'BS' : [-76,24.25],
+            'BT' : [90.5,27.5],
+            'BV' : [3.4,-54.4333],
+            'BW' : [24,-22],
+            'BY' : [28,53],
+            'BZ' : [-88.75,17.25],
+            'CA' : [-100,54],
+            'CC' : [96.8333,-12.5],
+            'CD' : [25,0],
+            'CF' : [21,7],
+            'CG' : [15,-1],
+            'CH' : [8,47],
+            'CI' : [-5,8],
+            'CK' : [-159.7667,-21.2333],
+            'CL' : [-71,-30],
+            'CM' : [12,6],
+            'CN' : [105,35],
+            'CO' : [-72,4],
+            'CR' : [-84,10],
+            'CU' : [-80,21.5],
+            'CV' : [-24,16],
+            'CX' : [105.6667,-10.5],
+            'CY' : [33,35],
+            'CZ' : [15.5,49.75],
+            'DE' : [9,51],
+            'DJ' : [43,11.5],
+            'DK' : [10,56],
+            'DM' : [-61.3333,15.4167],
+            'DO' : [-70.6667,19],
+            'DZ' : [3,28],
+            'EC' : [-77.5,-2],
+            'EE' : [26,59],
+            'EG' : [30,27],
+            'EH' : [-13,24.5],
+            'ER' : [39,15],
+            'ES' : [-4,40],
+            'ET' : [38,8],
+            'EU' : [8,47],
+            'FI' : [26,62],
+            'FJ' : [175,-18],
+            'FK' : [-59,-51.75],
+            'FM' : [158.25,6.9167],
+            'FO' : [-7,62],
+            'FR' : [2,46],
+            'GA' : [11.75,-1],
+            'GB' : [-2,54],
+            'GD' : [-61.6667,12.1167],
+            'GE' : [43.5,42],
+            'GF' : [-53,4],
+            'GH' : [-2,8],
+            'GI' : [-5.3667,36.1833],
+            'GL' : [-40,72],
+            'GM' : [-16.5667,13.4667],
+            'GN' : [-10,11],
+            'GP' : [-61.5833,16.25],
+            'GQ' : [10,2],
+            'GR' : [22,39],
+            'GS' : [-37,-54.5],
+            'GT' : [-90.25,15.5],
+            'GU' : [144.7833,13.4667],
+            'GW' : [-15,12],
+            'GY' : [-59,5],
+            'HK' : [114.1667,22.25],
+            'HM' : [72.5167,-53.1],
+            'HN' : [-86.5,15],
+            'HR' : [15.5,45.1667],
+            'HT' : [-72.4167,19],
+            'HU' : [20,47],
+            'ID' : [120,-5],
+            'IE' : [-8,53],
+            'IL' : [34.75,31.5],
+            'IN' : [77,20],
+            'IO' : [71.5,-6],
+            'IQ' : [44,33],
+            'IR' : [53,32],
+            'IS' : [-18,65],
+            'IT' : [12.8333,42.8333],
+            'JM' : [-77.5,18.25],
+            'JO' : [36,31],
+            'JP' : [138,36],
+            'KE' : [38,1],
+            'KG' : [75,41],
+            'KH' : [105,13],
+            'KI' : [173,1.4167],
+            'KM' : [44.25,-12.1667],
+            'KN' : [-62.75,17.3333],
+            'KP' : [127,40],
+            'KR' : [127.5,37],
+            'KW' : [47.6581,29.3375],
+            'KY' : [-80.5,19.5],
+            'KZ' : [68,48],
+            'LA' : [105,18],
+            'LB' : [35.8333,33.8333],
+            'LC' : [-61.1333,13.8833],
+            'LI' : [9.5333,47.1667],
+            'LK' : [81,7],
+            'LR' : [-9.5,6.5],
+            'LS' : [28.5,-29.5],
+            'LT' : [24,55],
+            'LU' : [6,49.75],
+            'LV' : [25,57],
+            'LY' : [17,25],
+            'MA' : [-5,32],
+            'MC' : [7.4,43.7333],
+            'MD' : [29,47],
+            'ME' : [19.4,42.5],
+            'MG' : [47,-20],
+            'MH' : [168,9],
+            'MK' : [22,41.8333],
+            'ML' : [-4,17],
+            'MM' : [98,22],
+            'MN' : [105,46],
+            'MO' : [113.55,22.1667],
+            'MP' : [145.75,15.2],
+            'MQ' : [-61,14.6667],
+            'MR' : [-12,20],
+            'MS' : [-62.2,16.75],
+            'MT' : [14.5833,35.8333],
+            'MU' : [57.55,-20.2833],
+            'MV' : [73,3.25],
+            'MW' : [34,-13.5],
+            'MX' : [-102,23],
+            'MY' : [112.5,2.5],
+            'MZ' : [35,-18.25],
+            'NA' : [17,-22],
+            'NC' : [165.5,-21.5],
+            'NE' : [8,16],
+            'NF' : [167.95,-29.0333],
+            'NG' : [8,10],
+            'NI' : [-85,13],
+            'NL' : [5.75,52.5],
+            'NO' : [10,62],
+            'NP' : [84,28],
+            'NR' : [166.9167,-0.5333],
+            'NU' : [-169.8667,-19.0333],
+            'NZ' : [174,-41],
+            'OM' : [57,21],
+            'PA' : [-80,9],
+            'PE' : [-76,-10],
+            'PF' : [-140,-15],
+            'PG' : [147,-6],
+            'PH' : [122,13],
+            'PK' : [70,30],
+            'PL' : [20,52],
+            'PM' : [-56.3333,46.8333],
+            'PR' : [-66.5,18.25],
+            'PS' : [35.25,32],
+            'PT' : [-8,39.5],
+            'PW' : [134.5,7.5],
+            'PY' : [-58,-23],
+            'QA' : [51.25,25.5],
+            'RE' : [55.6,-21.1],
+            'RO' : [25,46],
+            'RS' : [21,44],
+            'RU' : [100,60],
+            'RW' : [30,-2],
+            'SA' : [45,25],
+            'SB' : [159,-8],
+            'SC' : [55.6667,-4.5833],
+            'SD' : [30,15],
+            'SE' : [15,62],
+            'SG' : [103.8,1.3667],
+            'SH' : [-5.7,-15.9333],
+            'SI' : [15,46],
+            'SJ' : [20,78],
+            'SK' : [19.5,48.6667],
+            'SL' : [-11.5,8.5],
+            'SM' : [12.4167,43.7667],
+            'SN' : [-14,14],
+            'SO' : [49,10],
+            'SR' : [-56,4],
+            'ST' : [7,1],
+            'SV' : [-88.9167,13.8333],
+            'SY' : [38,35],
+            'SZ' : [31.5,-26.5],
+            'TC' : [-71.5833,21.75],
+            'TD' : [19,15],
+            'TF' : [67,-43],
+            'TG' : [1.1667,8],
+            'TH' : [100,15],
+            'TJ' : [71,39],
+            'TK' : [-172,-9],
+            'TM' : [60,40],
+            'TN' : [9,34],
+            'TO' : [-175,-20],
+            'TR' : [35,39],
+            'TT' : [-61,11],
+            'TV' : [178,-8],
+            'TW' : [121,23.5],
+            'TZ' : [35,-6],
+            'UA' : [32,49],
+            'UG' : [32,1],
+            'UM' : [166.6,19.2833],
+            'US' : [-97,38],
+            'UY' : [-56,-33],
+            'UZ' : [64,41],
+            'VA' : [12.45,41.9],
+            'VC' : [-61.2,13.25],
+            'VE' : [-66,8],
+            'VG' : [-64.5,18.5],
+            'VI' : [-64.8333,18.3333],
+            'VN' : [106,16],
+            'VU' : [167,-16],
+            'WF' : [-176.2,-13.3],
+            'WS' : [-172.3333,-13.5833],
+            'YE' : [48,15],
+            'YT' : [45.1667,-12.8333],
+            'ZA' : [24,-29],
+            'ZM' : [30,-15],
+            'ZW' : [30,-20],
+        };
+
+        var BJData = [
+            [{name:'AD'}, {name:'AE',value:100}],
+            [{name:'KR'}, {name:'US',value:4000}],
+        ];
+
+        var SHData = [
+            //[{name:'AD'},{name:'AE',value:95}]
+        ];
+
+        var GZData = [
+            //[{name:'AD'},{name:'AE',value:95}]
+
+        ];
+
+        var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
+
+        var convertData = function (data) {
+            var res = [];
+            for (var i = 0; i < data.length; i++) {
+                var dataItem = data[i];
+
+                var fromCoord = geoCoordMap[dataItem[0].name];
+                //console.log(fromCoord);
+                var toCoord = geoCoordMap[dataItem[1].name];
+                console.log(toCoord);
+                if (fromCoord && toCoord) {
+                    res.push({
+                        fromName: dataItem[0].name,
+                        toName: dataItem[1].name,
+                        coords: [fromCoord, toCoord]
+                    });
+                }
+            }
+            return res;
+        };
+
+        var color = ['#a6c84c', '#ffa022', '#46bee9'];
+        var series = [];
+        [['北京', BJData], ['上海', SHData], ['广州', GZData]].forEach(function (item, i) {
+            series.push({
+                name: item[0] + ' Top10',
+                type: 'lines',
+                zlevel: 1,
+                effect: {
+                    show: true,
+                    period: 6,
+                    trailLength: 0.1,
+                    color: '#fff',
+                    symbolSize: 7,
+                    constantSpeed: 400,
+                },
+                lineStyle: {
+                    normal: {
+                        color: color[i],
+                        width: 0,
+                        curveness: 0.2
+                    }
+                },
+                data: convertData(item[1])
+            },
+            {
+                name: item[0] + ' Top10',
+                type: 'lines',
+                zlevel: 2,
+                symbol: ['none', 'arrow'],
+                symbolSize: 15,
+                effect: {
+                    show: true,
+                    period: 6,
+                    trailLength: 0,
+                    symbol: planePath,
+                    symbolSize: 15,
+                    constantSpeed: 400,
+                },
+                lineStyle: {
+                    normal: {
+                        color: color[i],
+                        width: 1,
+                        opacity: 0.6,
+                        curveness: 0.2,
+                    }
+                },
+                data: convertData(item[1])
+            },
+            {
+                name: item[0] + ' Top10',
+                type: 'effectScatter',
+                coordinateSystem: 'geo',
+                zlevel: 2,
+                rippleEffect: {
+                    brushType: 'stroke'
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'right',
+                        formatter: '{b}'
+                    }
+                },
+                symbolSize: function (val) {
+                    return val[2] / 300;
+                },
+                itemStyle: {
+                    normal: {
+                        color: color[i]
+                    }
+                },
+                data: item[1].map(function (dataItem) {
+                    return {
+                        name: dataItem[1].name,
+                        value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                    };
+                })
+            });
+        });
+
+        option = {
+            backgroundColor: '#404a59',
+            title : {
+                text: 'test',
+                subtext: ' ',
+                left: 'center',
+                textStyle : {
+                    color: '#fff'
+                }
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter : function (params) {
+                    var value = (params.value + '').split('.');
+                    value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
+                    return params.name + '<br/>' + params.seriesName + ' : ' + value;
+                }
+            },
+            legend: {
+                orient: 'vertical',
+                top: 'bottom',
+                left: 'right',
+                data:['北京 Top10', '上海 Top10', '广州 Top10'],
+                textStyle: {
+                    color: '#fff'
+                },
+                selectedMode: 'single'
+            },
+            geo: {
+                map: 'world',
+                label: {
+                    normal: {
+                        show: false
+                    },
+                    emphasis: {
+                        show: true
+                    }
+                },
+                roam: true,
+                itemStyle: {
+                    normal: {
+                        areaColor: '#323c48',
+                        borderColor: '#404a59'
+                    },
+                    emphasis: {
+                        areaColor: '#2a333d'
+                    }
+                }
+            },
+            series: series
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+       </script>
+   </body>
+</html>
